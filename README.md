@@ -19,6 +19,8 @@ As shown in the architecture diagram:
 Interface layer description:
 
 - Low-Power Bluetooth Interface: Cangjie public interfaces based on low-power Bluetooth encapsulation exposed to developers.
+- Bluetooth Access Interface: Cangjie public interfaces based on Bluetooth access capabilities exposed to developers, covering switch control, state query, and state change subscription.
+- Bluetooth Connection Interface: Cangjie public interfaces based on classic Bluetooth connection management exposed to developers, covering device discovery, pairing, device information query, connection state query, and event subscription.
 - Bluetooth Profile Interface: Cangjie public interfaces based on Bluetooth Profile encapsulation exposed to developers.
 - Bluetooth Socket Interface: Cangjie public interfaces based on Bluetooth socket (Serial Port Profile, SPP) capabilities exposed to developers, covering server listening, client connection, data transfer, and peer device address query.
 - Bluetooth Constant Interface: Cangjie public interfaces based on Bluetooth constants exposed to developers.
@@ -27,6 +29,8 @@ Interface layer description:
 Framework layer description:
 
 - Low-Power Bluetooth Wrapper: Bluetooth Low Energy is a Bluetooth technology that can communicate in low power consumption situations. This encapsulation layer is a Cangjie encapsulation implementation of low-power Bluetooth functionality based on the Bluetooth component.
+- Bluetooth Access Wrapper: This encapsulation layer is a Cangjie encapsulation implementation of Bluetooth switch control and state change subscription based on the Bluetooth component.
+- Bluetooth Connection Wrapper: This encapsulation layer is a Cangjie encapsulation implementation of classic Bluetooth device discovery, pairing, information query, and connection state management based on the Bluetooth component.
 - Bluetooth Profile Wrapper: Bluetooth Profile is a universal file transfer protocol based on Bluetooth that allows file transfer between devices, such as a2dp, hfp, etc. This encapsulation layer is a Cangjie encapsulation implementation of Bluetooth Profile functionality based on the Bluetooth component.
 - Bluetooth Socket Wrapper: This encapsulation layer is a Cangjie encapsulation implementation of Bluetooth socket (SPP) functionality based on the Bluetooth component, covering server listening, client connection, data transfer, and peer device address query.
 - Bluetooth Constants: Defines public constants related to Bluetooth.
@@ -51,6 +55,7 @@ foundation/communication/connectivity_cangjie_wrapper
 ├── ohos                             # Cangjie connectivity code
 │   ├── bluetooth                    # Cangjie bluetooth code implementation
 │   │   ├── a2dp                     # a2dp Profile interfaces
+│   │   ├── access                   # Bluetooth access (switch and state) interfaces
 │   │   ├── base_profile             # Bluetooth base profile interfaces
 │   │   ├── ble                      # Bluetooth Low Energy interfaces
 │   │   ├── connection               # Bluetooth connection interfaces
