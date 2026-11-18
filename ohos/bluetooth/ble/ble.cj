@@ -66,6 +66,42 @@ public func createGattClientDevice(deviceId: String): GattClientDevice {
 }
 
 /**
+ * Obtains the list of devices in the connected status.
+ *
+ * @returns { Array<String> } Returns the list of device addresses.
+ * @throws { BusinessException } 201 - Permission denied.
+ * @throws { BusinessException } 801 - Capability not supported.
+ * @throws { BusinessException } 2900001 - Service stopped.
+ * @throws { BusinessException } 2900003 - Bluetooth disabled.
+ * @throws { BusinessException } 2900099 - Operation failed.
+ */
+@!APILevel[
+    since: "26.1.0",
+    permission: "ohos.permission.ACCESS_BLUETOOTH",
+    syscap: "SystemCapability.Communication.Bluetooth.Core",
+    throwexception: true
+]
+public func getConnectedBLEDevices(): Array<String> {
+    var errorCode: Int32 = 0
+    var devices = Array<String>()
+    unsafe {
+        let cDevices = FfiBluetoothBleGetConnectedBleDevices(inout errorCode)
+        try {
+            // D7-b: the error code is checked before the value is touched.
+            checkRet(errorCode)
+            if (!cDevices.head.isNull()) {
+                devices = cArr2cjArr<CString, String>(cDevices.size, cDevices.head) {
+                    str: CString => str.toString()
+                }
+            }
+        } finally {
+            cDevices.free()
+        }
+    }
+    return devices
+}
+
+/**
  * Starts scanning for specified BLE devices with filters.
  *
  * @param { Array<ScanFilter> } filters - Indicates the list of filters used to filter out specified devices.

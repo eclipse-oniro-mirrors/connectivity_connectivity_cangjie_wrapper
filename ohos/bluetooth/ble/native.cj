@@ -17,11 +17,15 @@
 
 package ohos.bluetooth.ble
 
+import ohos.ffi.CArrString
+
 foreign {
     // global ffi function
     func FfiBluetoothBleCreateGattServer(errCode: CPointer<Int32>): Int64
 
     func FfiBluetoothBleCreateGattClientDevice(deviceId: CString, errCode: CPointer<Int32>): Int64
+
+    func FfiBluetoothBleGetConnectedBleDevices(errCode: CPointer<Int32>): CArrString
 
     func FfiBluetoothBleStartBleScan(filters: CArrNativeScanFilter, options: CPointer<NativeScanOptions>,
         errCode: CPointer<Int32>): Unit
