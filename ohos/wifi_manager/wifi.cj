@@ -317,7 +317,8 @@ public func off(eventType: WifiCallbackType, callback!: ?CallbackObject = None):
  * The app must be in the foreground.
  *
  * @param { WifiDeviceConfig } config - candidate config.
- * @returns { Unit } Returns {@code networkId} if the configuration is added; returns {@code -1} otherwise.
+ * @param { AsyncCallback<Int32> } callback - Indicates call back of addCandidateConfig. The networkId is returned
+ *     if the configuration is added; {@code -1} is returned otherwise.
  * @throws { BusinessException } 201 - Permission denied.
  * @throws { BusinessException } 801 - Capability not supported.
  * @throws { BusinessException } 2501000 - Operation failed.
