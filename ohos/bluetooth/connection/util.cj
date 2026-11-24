@@ -17,7 +17,7 @@
 
 package ohos.bluetooth.connection
 
-import ohos.bluetooth.getErrorMsg
+import ohos.bluetooth.{ getErrorMsg, normalizeInnerCode }
 import ohos.bluetooth.constant.{ MajorClass, MajorMinorClass }
 import ohos.business_exception.BusinessException
 import ohos.ffi.SUCCESS_CODE
@@ -36,7 +36,10 @@ import std.deriving.Derive
  */
 protected func checkRetKeep401(errorCode: Int32): Unit {
     if (errorCode != SUCCESS_CODE) {
-        throw BusinessException(errorCode, getErrorMsg(errorCode))
+        // F1a: negative inner codes are outside the declared @throws
+        // surface; normalize them to 2900099 like the ArkTS napi layer.
+        let code = normalizeInnerCode(errorCode)
+        throw BusinessException(code, getErrorMsg(code))
     }
 }
 

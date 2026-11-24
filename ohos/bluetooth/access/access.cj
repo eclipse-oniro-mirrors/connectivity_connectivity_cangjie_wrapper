@@ -17,7 +17,7 @@
 
 package ohos.bluetooth.access
 
-import ohos.bluetooth.{ BLUETOOTH_LOG, OPERATION_FAILED, getErrorMsg, CallbackController }
+import ohos.bluetooth.{ BLUETOOTH_LOG, OPERATION_FAILED, getErrorMsg, normalizeInnerCode, CallbackController }
 import ohos.business_exception.BusinessException
 import ohos.callback_invoke.Callback1Argument
 import ohos.ffi.{ Callback1Param, SUCCESS_CODE }
@@ -32,10 +32,15 @@ import std.deriving.Derive
  * passes 401 through to align with the ArkTS runtime (decision D7-d).
  * 401 is not part of the declared @throws set; the behavior difference is
  * intentional and disclosed in the PR description.
+ *
+ * Negative inner codes are normalized to 2900099 (F1a): they are outside
+ * the declared @throws surface, and the ArkTS napi layer never lets them
+ * reach applications.
  */
 private func checkRetKeep401(errorCode: Int32): Unit {
     if (errorCode != SUCCESS_CODE) {
-        throw BusinessException(errorCode, getErrorMsg(errorCode))
+        let code = normalizeInnerCode(errorCode)
+        throw BusinessException(code, getErrorMsg(code))
     }
 }
 

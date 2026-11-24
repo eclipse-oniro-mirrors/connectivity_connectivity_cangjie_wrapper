@@ -17,7 +17,7 @@
 
 package ohos.bluetooth.ble
 
-import ohos.bluetooth.{ BLUETOOTH_LOG, OPERATION_FAILED, checkRet, getErrorMsg, CallbackController }
+import ohos.bluetooth.{ BLUETOOTH_LOG, OPERATION_FAILED, checkRet, getErrorMsg, normalizeInnerCode, CallbackController }
 import ohos.business_exception.BusinessException
 import ohos.callback_invoke.{ Callback1Argument, CallbackObject }
 import ohos.ffi.{ Callback1Param, safeMalloc, cArr2cjArr }
@@ -88,7 +88,10 @@ public func getConnectedBLEDevices(): Array<String> {
         let cDevices = FfiBluetoothBleGetConnectedBleDevices(inout errorCode)
         try {
             // D7-b: the error code is checked before the value is touched.
-            checkRet(errorCode)
+            // F1a: negative inner codes are outside the declared surface;
+            // normalize them to 2900099 before the shared checkRet (which
+            // keeps its preexisting 401->2900099 mapping for callers).
+            checkRet(normalizeInnerCode(errorCode))
             if (!cDevices.head.isNull()) {
                 devices = cArr2cjArr<CString, String>(cDevices.size, cDevices.head) {
                     str: CString => str.toString()

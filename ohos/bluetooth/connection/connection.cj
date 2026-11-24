@@ -17,7 +17,7 @@
 
 package ohos.bluetooth.connection
 
-import ohos.bluetooth.{ BLUETOOTH_LOG, OPERATION_FAILED, getErrorMsg, CallbackController }
+import ohos.bluetooth.{ BLUETOOTH_LOG, OPERATION_FAILED, getErrorMsg, normalizeInnerCode, CallbackController }
 import ohos.bluetooth.constant.{ ProfileConnectionState, ProfileId }
 import ohos.business_exception.{ AsyncCallback, BusinessException }
 import ohos.callback_invoke.{ Callback1Argument, CallbackObject }
@@ -118,7 +118,10 @@ private func pairDeviceAndCallback(deviceId: String, callback: AsyncCallback<Uni
         }
     }
     if (errorCode != SUCCESS_CODE) {
-        callback(BusinessException(errorCode, getErrorMsg(errorCode)), None<Unit>)
+        // F1a: negative inner codes are outside the declared error-code
+        // surface; normalize them to 2900099 like the ArkTS napi layer.
+        let code = normalizeInnerCode(errorCode)
+        callback(BusinessException(code, getErrorMsg(code)), None<Unit>)
         return
     }
     callback(None<BusinessException>, Some(()))
@@ -358,7 +361,10 @@ private func setDevicePinCodeAndCallback(deviceId: String, code: String,
         }
     }
     if (errorCode != SUCCESS_CODE) {
-        callback(BusinessException(errorCode, getErrorMsg(errorCode)), None<Unit>)
+        // F1a: negative inner codes are outside the declared error-code
+        // surface; normalize them to 2900099 like the ArkTS napi layer.
+        let code = normalizeInnerCode(errorCode)
+        callback(BusinessException(code, getErrorMsg(code)), None<Unit>)
         return
     }
     callback(None<BusinessException>, Some(()))
