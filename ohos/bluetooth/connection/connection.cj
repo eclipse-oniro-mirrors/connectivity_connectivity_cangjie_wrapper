@@ -28,6 +28,7 @@ import ohos.ffi.{ CArrString, Callback1Param, SUCCESS_CODE, cArr2cjArr }
 import ohos.labels.*
 
 import std.collection.HashMap
+import std.sync.Mutex
 
 private func parseProfileConnectionState(state: Int32): ProfileConnectionState {
     // D7-a (interim A1): a value outside the declared 0-3 domain surfaces as
@@ -541,20 +542,33 @@ where CT <: CType {
     registerCall.getID()
 }
 
+// T06/F-1: guards the check-native-register-enable-add sequence of every
+// subscription entry; see the comment inside commonSubscribe1Arg.
+private let subscribeMut = Mutex()
+
 private func commonSubscribe1Arg<CT, T>(callbackType: Int32, callback: CallbackObject,
     ctor: (CT) -> ?T): Unit where CT <: CType {
     BLUETOOTH_LOG.debug("subscribe connection event ${callbackType}")
     let controller = GLOBAL_CALLBACK_MAP[callbackType]
-    if (!controller.isEnabled()) {
-        register(callbackType, argWrapper1<CT, T>(controller, ctor))
-        controller.enableController()
-    } else {
-        if (controller.hasCallback(callback)) {
-            BLUETOOTH_LOG.info("The connection event ${callbackType} callback is registered, no need to re-registered")
-            return
+    // T06/F-1: the sequence below must be atomic. Without the guard, two
+    // threads making the first subscription for the same event could both
+    // register natively (orphaning one trampoline - the native side has no
+    // unregister entry) and interleave around the unlocked enableController()
+    // list swap so one subscription is silently lost. synchronized releases
+    // the monitor on exceptional exit, so a BusinessException thrown by
+    // register() cannot wedge the guard.
+    synchronized (subscribeMut) {
+        if (!controller.isEnabled()) {
+            register(callbackType, argWrapper1<CT, T>(controller, ctor))
+            controller.enableController()
+        } else {
+            if (controller.hasCallback(callback)) {
+                BLUETOOTH_LOG.info("The connection event ${callbackType} callback is registered, no need to re-registered")
+                return
+            }
         }
+        controller.addCallback(callback)
     }
-    controller.addCallback(callback)
 }
 
 private func commonUnsubscribe<T>(callbackType: Int32, callback: ?Callback1Argument<T>): Unit {

@@ -24,6 +24,7 @@ import ohos.ffi.{ Callback1Param, SUCCESS_CODE }
 import ohos.labels.APILevel
 
 import std.deriving.Derive
+import std.sync.Mutex
 
 /**
  * Checks the FFI error code for the access package.
@@ -220,6 +221,10 @@ private let REGISTER_STATE_CHANGE_TYPE: Int32 = 0
 
 private let controller = CallbackController()
 
+// T06/F-1: guards the check-native-register-enable-add sequence of
+// onStateChange; see the comment inside the function.
+private let subscribeMut = Mutex()
+
 private func argWrapper1<CT, T>(ctor: (CT) -> ?T): Int64 where CT <: CType {
     let wrapper = {
         ctype: CT =>
@@ -249,23 +254,29 @@ private func argWrapper1<CT, T>(ctor: (CT) -> ?T): Int64 where CT <: CType {
 ]
 public func onStateChange(callback: Callback1Argument<BluetoothState>): Unit {
     BLUETOOTH_LOG.debug("subscribe stateChange callback")
-    if (!controller.isEnabled()) {
-        var errorCode: Int32 = 0
-        let id = argWrapper1<Int32, BluetoothState>({
-            state: Int32 => BluetoothState.parse(state)
-        })
-        unsafe {
-            FfiBluetoothAccOn(REGISTER_STATE_CHANGE_TYPE, id, inout errorCode)
+    // T06/F-1: the sequence below must be atomic - see the parallel comment in
+    // the connection package's commonSubscribe1Arg. synchronized releases the
+    // monitor on exceptional exit, so the checkRetKeep401 inside cannot wedge
+    // the guard.
+    synchronized (subscribeMut) {
+        if (!controller.isEnabled()) {
+            var errorCode: Int32 = 0
+            let id = argWrapper1<Int32, BluetoothState>({
+                state: Int32 => BluetoothState.parse(state)
+            })
+            unsafe {
+                FfiBluetoothAccOn(REGISTER_STATE_CHANGE_TYPE, id, inout errorCode)
+            }
+            checkRetKeep401(errorCode)
+            controller.enableController()
+        } else {
+            if (controller.hasCallback(callback)) {
+                BLUETOOTH_LOG.info("The stateChange callback is registered, no need to re-registered")
+                return
+            }
         }
-        checkRetKeep401(errorCode)
-        controller.enableController()
-    } else {
-        if (controller.hasCallback(callback)) {
-            BLUETOOTH_LOG.info("The stateChange callback is registered, no need to re-registered")
-            return
-        }
+        controller.addCallback(callback)
     }
-    controller.addCallback(callback)
 }
 
 /**
