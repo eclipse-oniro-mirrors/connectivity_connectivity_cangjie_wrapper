@@ -460,7 +460,7 @@ struct CBatteryInfo {
 /**
  * The enum of BR scan mode.
  */
-@Derive[ToString, Equatable]
+@Derive[Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -554,9 +554,39 @@ public enum ScanMode {
 }
 
 /**
- * The enum of bond state.
+ * Th
+/**
+ * Converts the ScanMode to its string representation: the member name, per the
+ * interface analysis convention (the derived qualified "ScanMode.ScanModeNone"
+ * does not satisfy the declared contract; T002 finding I1).
  */
-@Derive[ToString, Equatable]
+extend ScanMode <: ToString {
+    /**
+     * Converts the ScanMode to its string representation.
+     * @returns { String } A string representation of the ScanMode.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.Communication.Bluetooth.Core"
+    ]
+    public func toString(): String {
+        match (this) {
+            case ScanModeNone => "ScanModeNone"
+            case ScanModeConnectable => "ScanModeConnectable"
+            case ScanModeGeneralDiscoverable => "ScanModeGeneralDiscoverable"
+            case ScanModeLimitedDiscoverable => "ScanModeLimitedDiscoverable"
+            case ScanModeConnectableGeneralDiscoverable => "ScanModeConnectableGeneralDiscoverable"
+            case ScanModeConnectableLimitedDiscoverable => "ScanModeConnectableLimitedDiscoverable"
+            // The declaration marks these enums open ("| ..." in the SDK
+            // surface), so a wildcard arm is required; declared members are
+            // all enumerated above and never reach it.
+            case _ => ""
+        }
+    }
+}
+e enum of bond state.
+ */
+@Derive[Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -605,9 +635,36 @@ public enum BondState {
 }
 
 /**
- * Enum for the charge state.
+ * En
+/**
+ * Converts the BondState to its string representation: the member name, per the
+ * interface analysis convention (the derived qualified "BondState.BondStateInvalid"
+ * does not satisfy the declared contract; T002 finding I1).
  */
-@Derive[ToString, Equatable]
+extend BondState <: ToString {
+    /**
+     * Converts the BondState to its string representation.
+     * @returns { String } A string representation of the BondState.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.Communication.Bluetooth.Core"
+    ]
+    public func toString(): String {
+        match (this) {
+            case BondStateInvalid => "BondStateInvalid"
+            case BondStateBonding => "BondStateBonding"
+            case BondStateBonded => "BondStateBonded"
+            // The declaration marks these enums open ("| ..." in the SDK
+            // surface), so a wildcard arm is required; declared members are
+            // all enumerated above and never reach it.
+            case _ => ""
+        }
+    }
+}
+um for the charge state.
+ */
+@Derive[Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -666,9 +723,37 @@ public enum DeviceChargeState {
 }
 
 /**
- * Enum for cause of unbond.
+ * En
+/**
+ * Converts the DeviceChargeState to its string representation: the member name, per the
+ * interface analysis convention (the derived qualified "DeviceChargeState.DeviceNormalChargeNotCharged"
+ * does not satisfy the declared contract; T002 finding I1).
  */
-@Derive[ToString, Equatable]
+extend DeviceChargeState <: ToString {
+    /**
+     * Converts the DeviceChargeState to its string representation.
+     * @returns { String } A string representation of the DeviceChargeState.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.Communication.Bluetooth.Core"
+    ]
+    public func toString(): String {
+        match (this) {
+            case DeviceNormalChargeNotCharged => "DeviceNormalChargeNotCharged"
+            case DeviceNormalChargeInCharging => "DeviceNormalChargeInCharging"
+            case DeviceSuperChargeNotCharged => "DeviceSuperChargeNotCharged"
+            case DeviceSuperChargeInCharging => "DeviceSuperChargeInCharging"
+            // The declaration marks these enums open ("| ..." in the SDK
+            // surface), so a wildcard arm is required; declared members are
+            // all enumerated above and never reach it.
+            case _ => ""
+        }
+    }
+}
+um for cause of unbond.
+ */
+@Derive[Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -736,6 +821,34 @@ public enum UnbondCause {
     }
 }
 
+/**
+ * Converts the UnbondCause to its string representation: the member name, per the
+ * interface analysis convention (the derived qualified "UnbondCause.UserRemoved"
+ * does not satisfy the declared contract; T002 finding I1).
+ */
+extend UnbondCause <: ToString {
+    /**
+     * Converts the UnbondCause to its string representation.
+     * @returns { String } A string representation of the UnbondCause.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.Communication.Bluetooth.Core"
+    ]
+    public func toString(): String {
+        match (this) {
+            case UserRemoved => "UserRemoved"
+            case RemoteDeviceDown => "RemoteDeviceDown"
+            case AuthFailure => "AuthFailure"
+            case AuthRejected => "AuthRejected"
+            case InternalError => "InternalError"
+            // The declaration marks these enums open ("| ..." in the SDK
+            // surface), so a wildcard arm is required; declared members are
+            // all enumerated above and never reach it.
+            case _ => ""
+        }
+    }
+}
 // ---------------------------------------------------------------------------
 // Class of Device (CoD) parse tables.
 //

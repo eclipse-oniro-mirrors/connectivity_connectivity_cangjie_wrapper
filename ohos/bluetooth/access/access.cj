@@ -48,7 +48,7 @@ private func checkRetKeep401(errorCode: Int32): Unit {
 /**
  * The enum of bluetooth state.
  */
-@Derive[ToString, Equatable]
+@Derive[Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -138,7 +138,38 @@ public enum BluetoothState {
 }
 
 /**
- * Enables Bluetooth on a device.
+ * En
+/**
+ * Converts the BluetoothState to its string representation: the member name, per the
+ * interface analysis convention (the derived qualified "BluetoothState.StateOff"
+ * does not satisfy the declared contract; T002 finding I1).
+ */
+extend BluetoothState <: ToString {
+    /**
+     * Converts the BluetoothState to its string representation.
+     * @returns { String } A string representation of the BluetoothState.
+     */
+    @!APILevel[
+        since: "26.1.0",
+        syscap: "SystemCapability.Communication.Bluetooth.Core"
+    ]
+    public func toString(): String {
+        match (this) {
+            case StateOff => "StateOff"
+            case StateTurningOn => "StateTurningOn"
+            case StateOn => "StateOn"
+            case StateTurningOff => "StateTurningOff"
+            case StateBleTurningOn => "StateBleTurningOn"
+            case StateBleOn => "StateBleOn"
+            case StateBleTurningOff => "StateBleTurningOff"
+            // The declaration marks these enums open ("| ..." in the SDK
+            // surface), so a wildcard arm is required; declared members are
+            // all enumerated above and never reach it.
+            case _ => ""
+        }
+    }
+}
+ables Bluetooth on a device.
  *
  * @throws { BusinessException } 201 - Permission denied.
  * @throws { BusinessException } 801 - Capability not supported.
