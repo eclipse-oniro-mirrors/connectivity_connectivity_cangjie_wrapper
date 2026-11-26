@@ -51,14 +51,10 @@ protected func checkRetKeep401(errorCode: Int32): Unit {
     syscap: "SystemCapability.Communication.Bluetooth.Core"
 ]
 public class BondStateParam {
-    private var deviceIdImpl: String
-    private var stateImpl: BondState
-    private var causeImpl: UnbondCause
+    private let bondStateParamImpl: BondStateParamImpl
 
     init(deviceId: String, state: BondState, cause: UnbondCause) {
-        this.deviceIdImpl = deviceId
-        this.stateImpl = state
-        this.causeImpl = cause
+        this.bondStateParamImpl = BondStateParamImpl(deviceId, state, cause)
     }
 
     /**
@@ -70,10 +66,10 @@ public class BondStateParam {
     ]
     public mut prop deviceId: String {
         get() {
-            return deviceIdImpl
+            return bondStateParamImpl.deviceId
         }
         set(value) {
-            deviceIdImpl = value
+            bondStateParamImpl.deviceId = value
         }
     }
 
@@ -86,10 +82,10 @@ public class BondStateParam {
     ]
     public mut prop state: BondState {
         get() {
-            return stateImpl
+            return bondStateParamImpl.state
         }
         set(value) {
-            stateImpl = value
+            bondStateParamImpl.state = value
         }
     }
 
@@ -102,11 +98,23 @@ public class BondStateParam {
     ]
     public mut prop cause: UnbondCause {
         get() {
-            return causeImpl
+            return bondStateParamImpl.cause
         }
         set(value) {
-            causeImpl = value
+            bondStateParamImpl.cause = value
         }
+    }
+}
+
+class BondStateParamImpl {
+    var deviceId: String
+    var state: BondState
+    var cause: UnbondCause
+
+    init(deviceId: String, state: BondState, cause: UnbondCause) {
+        this.deviceId = deviceId
+        this.state = state
+        this.cause = cause
     }
 }
 
@@ -118,12 +126,10 @@ public class BondStateParam {
     syscap: "SystemCapability.Communication.Bluetooth.Core"
 ]
 public class PinRequiredParam {
-    private var deviceIdImpl: String
-    private var pinCodeImpl: String
+    private let pinRequiredParamImpl: PinRequiredParamImpl
 
     init(deviceId: String, pinCode: String) {
-        this.deviceIdImpl = deviceId
-        this.pinCodeImpl = pinCode
+        this.pinRequiredParamImpl = PinRequiredParamImpl(deviceId, pinCode)
     }
 
     /**
@@ -135,10 +141,10 @@ public class PinRequiredParam {
     ]
     public mut prop deviceId: String {
         get() {
-            return deviceIdImpl
+            return pinRequiredParamImpl.deviceId
         }
         set(value) {
-            deviceIdImpl = value
+            pinRequiredParamImpl.deviceId = value
         }
     }
 
@@ -151,11 +157,21 @@ public class PinRequiredParam {
     ]
     public mut prop pinCode: String {
         get() {
-            return pinCodeImpl
+            return pinRequiredParamImpl.pinCode
         }
         set(value) {
-            pinCodeImpl = value
+            pinRequiredParamImpl.pinCode = value
         }
+    }
+}
+
+class PinRequiredParamImpl {
+    var deviceId: String
+    var pinCode: String
+
+    init(deviceId: String, pinCode: String) {
+        this.deviceId = deviceId
+        this.pinCode = pinCode
     }
 }
 
@@ -167,14 +183,10 @@ public class PinRequiredParam {
     syscap: "SystemCapability.Communication.Bluetooth.Core"
 ]
 public class DeviceClass {
-    private var majorClassImpl: MajorClass
-    private var majorMinorClassImpl: MajorMinorClass
-    private var classOfDeviceImpl: Int32
+    private let deviceClassImpl: DeviceClassImpl
 
     init(majorClass: MajorClass, majorMinorClass: MajorMinorClass, classOfDevice: Int32) {
-        this.majorClassImpl = majorClass
-        this.majorMinorClassImpl = majorMinorClass
-        this.classOfDeviceImpl = classOfDevice
+        this.deviceClassImpl = DeviceClassImpl(majorClass, majorMinorClass, classOfDevice)
     }
 
     /**
@@ -186,10 +198,10 @@ public class DeviceClass {
     ]
     public mut prop majorClass: MajorClass {
         get() {
-            return majorClassImpl
+            return deviceClassImpl.majorClass
         }
         set(value) {
-            majorClassImpl = value
+            deviceClassImpl.majorClass = value
         }
     }
 
@@ -202,10 +214,10 @@ public class DeviceClass {
     ]
     public mut prop majorMinorClass: MajorMinorClass {
         get() {
-            return majorMinorClassImpl
+            return deviceClassImpl.majorMinorClass
         }
         set(value) {
-            majorMinorClassImpl = value
+            deviceClassImpl.majorMinorClass = value
         }
     }
 
@@ -218,11 +230,23 @@ public class DeviceClass {
     ]
     public mut prop classOfDevice: Int32 {
         get() {
-            return classOfDeviceImpl
+            return deviceClassImpl.classOfDevice
         }
         set(value) {
-            classOfDeviceImpl = value
+            deviceClassImpl.classOfDevice = value
         }
+    }
+}
+
+class DeviceClassImpl {
+    var majorClass: MajorClass
+    var majorMinorClass: MajorMinorClass
+    var classOfDevice: Int32
+
+    init(majorClass: MajorClass, majorMinorClass: MajorMinorClass, classOfDevice: Int32) {
+        this.majorClass = majorClass
+        this.majorMinorClass = majorMinorClass
+        this.classOfDevice = classOfDevice
     }
 }
 
@@ -234,24 +258,13 @@ public class DeviceClass {
     syscap: "SystemCapability.Communication.Bluetooth.Core"
 ]
 public class BatteryInfo {
-    private var batteryLevelImpl: Int32
-    private var leftEarBatteryLevelImpl: Int32
-    private var leftEarChargeStateImpl: DeviceChargeState
-    private var rightEarBatteryLevelImpl: Int32
-    private var rightEarChargeStateImpl: DeviceChargeState
-    private var boxBatteryLevelImpl: Int32
-    private var boxChargeStateImpl: DeviceChargeState
+    private let batteryInfoImpl: BatteryInfoImpl
 
     init(batteryLevel: Int32, leftEarBatteryLevel: Int32, leftEarChargeState: DeviceChargeState,
          rightEarBatteryLevel: Int32, rightEarChargeState: DeviceChargeState,
          boxBatteryLevel: Int32, boxChargeState: DeviceChargeState) {
-        this.batteryLevelImpl = batteryLevel
-        this.leftEarBatteryLevelImpl = leftEarBatteryLevel
-        this.leftEarChargeStateImpl = leftEarChargeState
-        this.rightEarBatteryLevelImpl = rightEarBatteryLevel
-        this.rightEarChargeStateImpl = rightEarChargeState
-        this.boxBatteryLevelImpl = boxBatteryLevel
-        this.boxChargeStateImpl = boxChargeState
+        this.batteryInfoImpl = BatteryInfoImpl(batteryLevel, leftEarBatteryLevel, leftEarChargeState,
+            rightEarBatteryLevel, rightEarChargeState, boxBatteryLevel, boxChargeState)
     }
 
     /**
@@ -263,10 +276,10 @@ public class BatteryInfo {
     ]
     public mut prop batteryLevel: Int32 {
         get() {
-            return batteryLevelImpl
+            return batteryInfoImpl.batteryLevel
         }
         set(value) {
-            batteryLevelImpl = value
+            batteryInfoImpl.batteryLevel = value
         }
     }
 
@@ -279,10 +292,10 @@ public class BatteryInfo {
     ]
     public mut prop leftEarBatteryLevel: Int32 {
         get() {
-            return leftEarBatteryLevelImpl
+            return batteryInfoImpl.leftEarBatteryLevel
         }
         set(value) {
-            leftEarBatteryLevelImpl = value
+            batteryInfoImpl.leftEarBatteryLevel = value
         }
     }
 
@@ -295,10 +308,10 @@ public class BatteryInfo {
     ]
     public mut prop leftEarChargeState: DeviceChargeState {
         get() {
-            return leftEarChargeStateImpl
+            return batteryInfoImpl.leftEarChargeState
         }
         set(value) {
-            leftEarChargeStateImpl = value
+            batteryInfoImpl.leftEarChargeState = value
         }
     }
 
@@ -311,10 +324,10 @@ public class BatteryInfo {
     ]
     public mut prop rightEarBatteryLevel: Int32 {
         get() {
-            return rightEarBatteryLevelImpl
+            return batteryInfoImpl.rightEarBatteryLevel
         }
         set(value) {
-            rightEarBatteryLevelImpl = value
+            batteryInfoImpl.rightEarBatteryLevel = value
         }
     }
 
@@ -327,10 +340,10 @@ public class BatteryInfo {
     ]
     public mut prop rightEarChargeState: DeviceChargeState {
         get() {
-            return rightEarChargeStateImpl
+            return batteryInfoImpl.rightEarChargeState
         }
         set(value) {
-            rightEarChargeStateImpl = value
+            batteryInfoImpl.rightEarChargeState = value
         }
     }
 
@@ -343,10 +356,10 @@ public class BatteryInfo {
     ]
     public mut prop boxBatteryLevel: Int32 {
         get() {
-            return boxBatteryLevelImpl
+            return batteryInfoImpl.boxBatteryLevel
         }
         set(value) {
-            boxBatteryLevelImpl = value
+            batteryInfoImpl.boxBatteryLevel = value
         }
     }
 
@@ -359,11 +372,33 @@ public class BatteryInfo {
     ]
     public mut prop boxChargeState: DeviceChargeState {
         get() {
-            return boxChargeStateImpl
+            return batteryInfoImpl.boxChargeState
         }
         set(value) {
-            boxChargeStateImpl = value
+            batteryInfoImpl.boxChargeState = value
         }
+    }
+}
+
+class BatteryInfoImpl {
+    var batteryLevel: Int32
+    var leftEarBatteryLevel: Int32
+    var leftEarChargeState: DeviceChargeState
+    var rightEarBatteryLevel: Int32
+    var rightEarChargeState: DeviceChargeState
+    var boxBatteryLevel: Int32
+    var boxChargeState: DeviceChargeState
+
+    init(batteryLevel: Int32, leftEarBatteryLevel: Int32, leftEarChargeState: DeviceChargeState,
+         rightEarBatteryLevel: Int32, rightEarChargeState: DeviceChargeState,
+         boxBatteryLevel: Int32, boxChargeState: DeviceChargeState) {
+        this.batteryLevel = batteryLevel
+        this.leftEarBatteryLevel = leftEarBatteryLevel
+        this.leftEarChargeState = leftEarChargeState
+        this.rightEarBatteryLevel = rightEarBatteryLevel
+        this.rightEarChargeState = rightEarChargeState
+        this.boxBatteryLevel = boxBatteryLevel
+        this.boxChargeState = boxChargeState
     }
 }
 
