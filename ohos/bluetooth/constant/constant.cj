@@ -83,7 +83,7 @@ public enum ProfileConnectionState {
 /**
  * The enum of profile id.
  */
-@Derive[Equatable]
+@Derive[ToString, Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -143,37 +143,9 @@ public enum ProfileId {
 }
 
 /**
- * Th
-/**
- * Converts the ProfileId to its string representation: the member name, per the
- * interface analysis convention (the derived qualified "ProfileId.ProfileA2dpSource"
- * does not satisfy the declared contract; T002 finding I1).
+ * The enum of major class of a bluetooth device.
  */
-extend ProfileId <: ToString {
-    /**
-     * Converts the ProfileId to its string representation.
-     * @returns { String } A string representation of the ProfileId.
-     */
-    @!APILevel[
-        since: "26.1.0",
-        syscap: "SystemCapability.Communication.Bluetooth.Core"
-    ]
-    public func toString(): String {
-        match (this) {
-            case ProfileA2dpSource => "ProfileA2dpSource"
-            case ProfileHandsfreeAudioGateway => "ProfileHandsfreeAudioGateway"
-            case ProfileHidHost => "ProfileHidHost"
-            case ProfilePanNetwork => "ProfilePanNetwork"
-            // The declaration marks these enums open ("| ..." in the SDK
-            // surface), so a wildcard arm is required; declared members are
-            // all enumerated above and never reach it.
-            case _ => ""
-        }
-    }
-}
-e enum of major class of a bluetooth device.
- */
-@Derive[Equatable]
+@Derive[ToString, Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -281,44 +253,9 @@ public enum MajorClass {
 }
 
 /**
- * Th
-/**
- * Converts the MajorClass to its string representation: the member name, per the
- * interface analysis convention (the derived qualified "MajorClass.MajorMisc"
- * does not satisfy the declared contract; T002 finding I1).
+ * The enum of major minor class of a bluetooth device.
  */
-extend MajorClass <: ToString {
-    /**
-     * Converts the MajorClass to its string representation.
-     * @returns { String } A string representation of the MajorClass.
-     */
-    @!APILevel[
-        since: "26.1.0",
-        syscap: "SystemCapability.Communication.Bluetooth.Core"
-    ]
-    public func toString(): String {
-        match (this) {
-            case MajorMisc => "MajorMisc"
-            case MajorComputer => "MajorComputer"
-            case MajorPhone => "MajorPhone"
-            case MajorNetworking => "MajorNetworking"
-            case MajorAudioVideo => "MajorAudioVideo"
-            case MajorPeripheral => "MajorPeripheral"
-            case MajorImaging => "MajorImaging"
-            case MajorWearable => "MajorWearable"
-            case MajorToy => "MajorToy"
-            case MajorHealth => "MajorHealth"
-            case MajorUncategorized => "MajorUncategorized"
-            // The declaration marks these enums open ("| ..." in the SDK
-            // surface), so a wildcard arm is required; declared members are
-            // all enumerated above and never reach it.
-            case _ => ""
-        }
-    }
-}
-e enum of major minor class of a bluetooth device.
- */
-@Derive[Equatable]
+@Derive[ToString, Equatable]
 @!APILevel[
     since: "26.1.0",
     syscap: "SystemCapability.Communication.Bluetooth.Core"
@@ -1098,114 +1035,4 @@ public enum MajorMinorClass {
     ]
     HealthPersonalMobilityDevice
     | ...
-}
-
-/**
- * Converts the MajorMinorClass to its string representation: the member name, per the
- * interface analysis convention (the derived qualified "MajorMinorClass.ComputerUncategorized"
- * does not satisfy the declared contract; T002 finding I1).
- */
-extend MajorMinorClass <: ToString {
-    /**
-     * Converts the MajorMinorClass to its string representation.
-     * @returns { String } A string representation of the MajorMinorClass.
-     */
-    @!APILevel[
-        since: "26.1.0",
-        syscap: "SystemCapability.Communication.Bluetooth.Core"
-    ]
-    public func toString(): String {
-        match (this) {
-            case ComputerUncategorized => "ComputerUncategorized"
-            case ComputerDesktop => "ComputerDesktop"
-            case ComputerServer => "ComputerServer"
-            case ComputerLaptop => "ComputerLaptop"
-            case ComputerHandheldPcPda => "ComputerHandheldPcPda"
-            case ComputerPalmSizePcPda => "ComputerPalmSizePcPda"
-            case ComputerWearable => "ComputerWearable"
-            case ComputerTablet => "ComputerTablet"
-            case PhoneUncategorized => "PhoneUncategorized"
-            case PhoneCellular => "PhoneCellular"
-            case PhoneCordless => "PhoneCordless"
-            case PhoneSmart => "PhoneSmart"
-            case PhoneModemOrGateway => "PhoneModemOrGateway"
-            case PhoneIsdn => "PhoneIsdn"
-            case NetworkFullyAvailable => "NetworkFullyAvailable"
-            case Network1To17Utilized => "Network1To17Utilized"
-            case Network17To33Utilized => "Network17To33Utilized"
-            case Network33To50Utilized => "Network33To50Utilized"
-            case Network60To67Utilized => "Network60To67Utilized"
-            case Network67To83Utilized => "Network67To83Utilized"
-            case Network83To99Utilized => "Network83To99Utilized"
-            case NetworkNoService => "NetworkNoService"
-            case AudioVideoUncategorized => "AudioVideoUncategorized"
-            case AudioVideoWearableHeadset => "AudioVideoWearableHeadset"
-            case AudioVideoHandsfree => "AudioVideoHandsfree"
-            case AudioVideoMicrophone => "AudioVideoMicrophone"
-            case AudioVideoLoudspeaker => "AudioVideoLoudspeaker"
-            case AudioVideoHeadphones => "AudioVideoHeadphones"
-            case AudioVideoPortableAudio => "AudioVideoPortableAudio"
-            case AudioVideoCarAudio => "AudioVideoCarAudio"
-            case AudioVideoSetTopBox => "AudioVideoSetTopBox"
-            case AudioVideoHifiAudio => "AudioVideoHifiAudio"
-            case AudioVideoVcr => "AudioVideoVcr"
-            case AudioVideoVideoCamera => "AudioVideoVideoCamera"
-            case AudioVideoCamcorder => "AudioVideoCamcorder"
-            case AudioVideoVideoMonitor => "AudioVideoVideoMonitor"
-            case AudioVideoVideoDisplayAndLoudspeaker => "AudioVideoVideoDisplayAndLoudspeaker"
-            case AudioVideoVideoConferencing => "AudioVideoVideoConferencing"
-            case AudioVideoVideoGamingToy => "AudioVideoVideoGamingToy"
-            case PeripheralNonKeyboardNonPointing => "PeripheralNonKeyboardNonPointing"
-            case PeripheralKeyboard => "PeripheralKeyboard"
-            case PeripheralPointingDevice => "PeripheralPointingDevice"
-            case PeripheralKeyboardPointing => "PeripheralKeyboardPointing"
-            case PeripheralUncategorized => "PeripheralUncategorized"
-            case PeripheralJoystick => "PeripheralJoystick"
-            case PeripheralGamepad => "PeripheralGamepad"
-            case PeripheralRemoteControl => "PeripheralRemoteControl"
-            case PeripheralSensingDevice => "PeripheralSensingDevice"
-            case PeripheralDigitizerTablet => "PeripheralDigitizerTablet"
-            case PeripheralCardReader => "PeripheralCardReader"
-            case PeripheralDigitalPen => "PeripheralDigitalPen"
-            case PeripheralScannerRfid => "PeripheralScannerRfid"
-            case PeripheralGesturalInput => "PeripheralGesturalInput"
-            case ImagingUncategorized => "ImagingUncategorized"
-            case ImagingDisplay => "ImagingDisplay"
-            case ImagingCamera => "ImagingCamera"
-            case ImagingScanner => "ImagingScanner"
-            case ImagingPrinter => "ImagingPrinter"
-            case WearableUncategorized => "WearableUncategorized"
-            case WearableWristWatch => "WearableWristWatch"
-            case WearablePager => "WearablePager"
-            case WearableJacket => "WearableJacket"
-            case WearableHelmet => "WearableHelmet"
-            case WearableGlasses => "WearableGlasses"
-            case ToyUncategorized => "ToyUncategorized"
-            case ToyRobot => "ToyRobot"
-            case ToyVehicle => "ToyVehicle"
-            case ToyDollActionFigure => "ToyDollActionFigure"
-            case ToyController => "ToyController"
-            case ToyGame => "ToyGame"
-            case HealthUncategorized => "HealthUncategorized"
-            case HealthBloodPressure => "HealthBloodPressure"
-            case HealthThermometer => "HealthThermometer"
-            case HealthWeighing => "HealthWeighing"
-            case HealthGlucose => "HealthGlucose"
-            case HealthPulseOximeter => "HealthPulseOximeter"
-            case HealthPulseRate => "HealthPulseRate"
-            case HealthDataDisplay => "HealthDataDisplay"
-            case HealthStepCounter => "HealthStepCounter"
-            case HealthBodyCompositionAnalyzer => "HealthBodyCompositionAnalyzer"
-            case HealthPeakFlowMonitor => "HealthPeakFlowMonitor"
-            case HealthMedicationMonitor => "HealthMedicationMonitor"
-            case HealthKneeProsthesis => "HealthKneeProsthesis"
-            case HealthAnkleProsthesis => "HealthAnkleProsthesis"
-            case HealthGenericHealthManager => "HealthGenericHealthManager"
-            case HealthPersonalMobilityDevice => "HealthPersonalMobilityDevice"
-            // The declaration marks these enums open ("| ..." in the SDK
-            // surface), so a wildcard arm is required; declared members are
-            // all enumerated above and never reach it.
-            case _ => ""
-        }
-    }
 }
