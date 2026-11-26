@@ -17,7 +17,7 @@
 
 package ohos.bluetooth.connection
 
-import ohos.bluetooth.{ getErrorMsg, normalizeInnerCode }
+import ohos.bluetooth.{ OPERATION_FAILED, getErrorMsg, normalizeInnerCode }
 import ohos.bluetooth.constant.{ MajorClass, MajorMinorClass }
 import ohos.business_exception.BusinessException
 import ohos.ffi.SUCCESS_CODE
@@ -583,7 +583,7 @@ public enum ScanMode {
             case ScanModeLimitedDiscoverable => 3
             case ScanModeConnectableGeneralDiscoverable => 4
             case ScanModeConnectableLimitedDiscoverable => 5
-            case _ => throw IllegalArgumentException("The type is not supported.")
+            case _ => throw BusinessException(OPERATION_FAILED, getErrorMsg(OPERATION_FAILED))
         }
     }
 }
