@@ -92,10 +92,11 @@ public func getConnectedBLEDevices(): Array<String> {
             // normalize them to 2900099 before the shared checkRet (which
             // keeps its preexisting 401->2900099 mapping for callers).
             checkRet(normalizeInnerCode(errorCode))
-            if (!cDevices.head.isNull()) {
-                devices = cArr2cjArr<CString, String>(cDevices.size, cDevices.head) {
-                    str: CString => str.toString()
-                }
+            if (cDevices.head.isNull()) {
+                return devices
+            }
+            devices = cArr2cjArr<CString, String>(cDevices.size, cDevices.head) {
+                str: CString => str.toString()
             }
         } finally {
             cDevices.free()

@@ -248,10 +248,11 @@ public func getPairedDevices(): Array<String> {
         let cDevices = FfiBluetoothConGetPairedDevices(inout errorCode)
         try {
             checkRetKeep401(errorCode)
-            if (!cDevices.head.isNull()) {
-                devices = cArr2cjArr<CString, String>(cDevices.size, cDevices.head) {
-                    str: CString => str.toString()
-                }
+            if (cDevices.head.isNull()) {
+                return devices
+            }
+            devices = cArr2cjArr<CString, String>(cDevices.size, cDevices.head) {
+                str: CString => str.toString()
             }
         } finally {
             cDevices.free()
