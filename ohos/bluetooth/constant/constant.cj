@@ -18,6 +18,7 @@
 package ohos.bluetooth.constant
 
 import std.deriving.Derive
+import ohos.bluetooth.{ OPERATION_FAILED, getErrorMsg }
 import ohos.business_exception.BusinessException
 import ohos.labels.APILevel
 
@@ -138,7 +139,7 @@ public enum ProfileId {
             case ProfileHandsfreeAudioGateway => 4i32
             case ProfileHidHost => 6i32
             case ProfilePanNetwork => 7i32
-            case _ => throw BusinessException(2900099, "Operation failed.")
+            case _ => throw BusinessException(OPERATION_FAILED, getErrorMsg(OPERATION_FAILED))
         }
     }
 }
