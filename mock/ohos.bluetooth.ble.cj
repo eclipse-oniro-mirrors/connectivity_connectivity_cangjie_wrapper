@@ -38,6 +38,16 @@ public func createGattClientDevice(deviceId: String): GattClientDevice {
 }
 
 @!APILevel[
+    since: "26.1.0",
+    permission: "ohos.permission.ACCESS_BLUETOOTH",
+    syscap: "SystemCapability.Communication.Bluetooth.Core",
+    throwexception: true
+]
+public func getConnectedBLEDevices(): Array<String> {
+    return Array<String>()
+}
+
+@!APILevel[
     since: "22",
     permission: "ohos.permission.ACCESS_BLUETOOTH",
     syscap: "SystemCapability.Communication.Bluetooth.Core",

@@ -99,3 +99,20 @@ protected func checkRet(errorCode: Int32): Unit {
         throw BusinessException(errorCode, getErrorMsg(errorCode))
     }
 }
+
+/**
+ * Normalizes raw negative inner error codes to the declared business code
+ * 2900099, mirroring the ArkTS napi layer: napi ProcessErrCode maps the
+ * BT_ERR_INNER_BASE family (e.g. -1014 BT_ERR_ADDRESS_NOT_EXIST) to
+ * BT_ERR_INTERNAL_ERROR so applications never observe inner codes, which
+ * are outside the declared @throws surface of the 26.1.0 ohos.bluetooth
+ * packages. Positive business codes (201/401/801/29xxxxx) pass through
+ * unchanged. Added for the four-package completion (finding F1a, task
+ * item T12); purely additive, no existing function is modified.
+ */
+protected func normalizeInnerCode(errorCode: Int32): Int32 {
+    if (errorCode < 0) {
+        return OPERATION_FAILED
+    }
+    return errorCode
+}

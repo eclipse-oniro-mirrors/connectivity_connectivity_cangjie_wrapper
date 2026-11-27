@@ -19,6 +19,8 @@ WLAN服务：无线局域网（Wireless Local Area Networks，WLAN），是通�
 接口层说明：
 
 - 低功耗蓝牙接口：提供了基于低功耗蓝牙（Bluetooth Low Energy，BLE）技术的蓝牙能力，支持发起BLE扫描、发送BLE广播报文、以及基于通用属性协议（Generic Attribute Profile，GATT）的连接和传输数据的仓颉公开接口声明。
+- 蓝牙access接口：提供蓝牙开关控制、状态查询与状态变化订阅能力的仓颉公开接口声明。
+- 蓝牙connection接口：提供经典蓝牙连接管理能力的仓颉公开接口声明，支持设备发现、配对管理、设备信息查询与连接状态查询。
 - 蓝牙baseProfile接口：蓝牙Profile一种基于蓝牙的通用文件传输协议，提供了不同的蓝牙技术协议的基础公共方法的仓颉公开接口声明。
 - 蓝牙a2dp接口：提供基于增强音频分发协议（Advanced Audio Distribution Profile，A2DP）的蓝牙媒体音频能力，支持获取媒体播放状态和连接状态的仓颉公开接口声明。
 - 蓝牙hfp接口：提供基于免提协议（Hands-Free Profile， HFP）的蓝牙通话音频能力的仓颉公开接口声明。
@@ -29,6 +31,8 @@ WLAN服务：无线局域网（Wireless Local Area Networks，WLAN），是通�
 框架层说明：
 
 - 低功耗蓝牙封装：低功耗蓝牙是一种能够在低功耗情况下进行通信的蓝牙技术。该封装层是基于蓝牙组件对低功耗蓝牙功能进行仓颉封装实现。
+- 蓝牙access封装：实现了基于蓝牙组件的蓝牙开关控制与状态变化订阅的仓颉封装。
+- 蓝牙connection封装：实现了基于蓝牙组件的经典蓝牙设备发现、配对管理、设备信息查询与连接状态查询的仓颉封装。
 - 蓝牙baseProfile封装：提供了不同的蓝牙技术协议的抽象封装。
 - 蓝牙a2dp封装：实现了基于a2dp协议的播放状态和连接状态查询。
 - 蓝牙hfp封装：实现了基于hfp协议的蓝牙通话音频能力。
@@ -55,8 +59,10 @@ foundation/communication/connectivity_cangjie_wrapper
 ├── ohos                             # 仓颉基础通信接口代码
 │   ├── bluetooth                    # 仓颉蓝牙接口存放目录
 │   │   ├── a2dp                     # a2dp Profile相关接口
+│   │   ├── access                   # 蓝牙开关与状态相关接口
 │   │   ├── base_profile             # 蓝牙基础Profile接口
 │   │   ├── ble                      # 低功耗蓝牙相关接口
+│   │   ├── connection               # 蓝牙连接管理相关接口
 │   │   ├── constant                 # 蓝牙常量定义
 │   │   ├── error_message.cj         # 蓝牙错误信息定义
 │   │   ├── hfp                      # hfp Profile相关接口
